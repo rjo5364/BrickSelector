@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ProductAdapter productAdapter;
     Button btnNext, btnDeleteProduct;
-    List<Product> selectedProducts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +38,7 @@ public class MainActivity extends AppCompatActivity {
         productAdapter = new ProductAdapter(productList, new ProductAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Product product) {
-                // Add or remove product from selected list
-                if (selectedProducts.contains(product)) {
-                    selectedProducts.remove(product);
-                } else {
-                    selectedProducts.add(product);
-                }
+                // This can be left empty, as checkbox selection is now managed in the adapter
             }
         });
 
@@ -61,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the 'Next' button to proceed if 3 or more products are selected
         btnNext.setOnClickListener(v -> {
+            // Get selected products from the adapter
+            Set<Product> selectedProducts = productAdapter.getSelectedProducts();
+
             if (selectedProducts.size() < 3) {
                 Toast.makeText(MainActivity.this, "You must select 3 or more to proceed", Toast.LENGTH_SHORT).show();
             } else {
@@ -72,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the delete button
         btnDeleteProduct.setOnClickListener(v -> {
+            // Get selected products from the adapter
+            Set<Product> selectedProducts = productAdapter.getSelectedProducts();
+
             if (selectedProducts.isEmpty()) {
                 Toast.makeText(MainActivity.this, "Please select a product to delete", Toast.LENGTH_SHORT).show();
             } else {
@@ -81,11 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Update the list after deletion
                 productAdapter.updateProductList(dbHelper.getAllProducts());
-                selectedProducts.clear(); // Clear the selection after deletion
                 Toast.makeText(MainActivity.this, "Product(s) deleted", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         // Start AddProductActivity to add new products
         btnAddProduct.setOnClickListener(v -> {

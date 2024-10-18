@@ -3,12 +3,15 @@ package edu.psu.sweng888.brickselector;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SecondActivity extends AppCompatActivity {
@@ -17,6 +20,7 @@ public class SecondActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Button btnEmail;
     List<Product> selectedProducts;
+    ImageButton buttonHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,7 @@ public class SecondActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewSelectedProducts);
         btnEmail = findViewById(R.id.btnEmail);
+        buttonHome = findViewById(R.id.buttonHome);  // Initialize buttonHome here after setContentView
 
         // Retrieve the Parcelable ArrayList of Products
         selectedProducts = getIntent().getParcelableArrayListExtra("selectedProducts");
@@ -34,8 +39,14 @@ public class SecondActivity extends AppCompatActivity {
         recyclerView.setAdapter(productAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        btnEmail.setOnClickListener(v -> {
-            sendEmail(selectedProducts);
+        // Send email when the button is clicked
+        btnEmail.setOnClickListener(v -> sendEmail(selectedProducts));
+
+        // Handle returning to the home screen
+        buttonHome.setOnClickListener(v -> {
+            Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();  // Close the current activity
         });
     }
 
@@ -48,24 +59,37 @@ public class SecondActivity extends AppCompatActivity {
                     .append(product.getPrice()).append("\n");
         }
 
-        String email = getString(R.string.email);
+        String email = getString(R.string.targetEmail);
 
+        // Get the current time
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(new Date());
+
+        // Set up the email intent
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Selected Products");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Selected Products - " + currentTime);
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailContent.toString());
 
         try {
-            startActivity(Intent.createChooser(emailIntent, "Send email..."));
-            Toast.makeText(this, "Email sent successfully!", Toast.LENGTH_SHORT).show();
-
-            // Clear the selected products and notify adapter
-            selectedProducts.clear();
-            productAdapter.notifyDataSetChanged();
-
+            startActivityForResult(Intent.createChooser(emailIntent, "Send email..."), 1);
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {  // Check for the requestCode used in startActivityForResult
+            // Display a toast when the user returns from the chooser
+            Toast.makeText(this, "Information Sent!", Toast.LENGTH_SHORT).show();
+
+            // You can also clear the products here, if needed
+            selectedProducts.clear();
+            productAdapter.notifyDataSetChanged();
         }
     }
 }

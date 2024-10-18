@@ -20,7 +20,7 @@ public class AddProductActivity extends AppCompatActivity {
     private static final int SELECT_IMAGE_REQUEST_CODE = 1;
     private static final int STORAGE_PERMISSION_CODE = 101;
     private ImageView productImageView;
-    private EditText editTextProductName, editTextProductDescription, editTextProductPrice;
+    private EditText editTextProductName, editTextProductDescription, editTextProductPrice, editTextProductSeller;
     private byte[] selectedImageBytes; // Store image bytes for saving in the database
 
     @Override
@@ -32,6 +32,7 @@ public class AddProductActivity extends AppCompatActivity {
         editTextProductName = findViewById(R.id.editTextProductName);
         editTextProductDescription = findViewById(R.id.editTextProductDescription);
         editTextProductPrice = findViewById(R.id.editTextProductPrice);
+        editTextProductSeller = findViewById(R.id.editTextProductSeller);
 
         Button btnAddProduct = findViewById(R.id.buttonAddProduct);
         Button btnCancel = findViewById(R.id.buttonCancelProduct);
@@ -50,6 +51,7 @@ public class AddProductActivity extends AppCompatActivity {
             String productName = editTextProductName.getText().toString().trim();
             String productDescription = editTextProductDescription.getText().toString().trim();
             String productPriceStr = editTextProductPrice.getText().toString().trim();
+            String productSeller = editTextProductSeller.getText().toString().trim();
 
             if (productName.isEmpty() || productDescription.isEmpty() || productPriceStr.isEmpty()) {
                 Toast.makeText(AddProductActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
@@ -62,7 +64,7 @@ public class AddProductActivity extends AppCompatActivity {
                             0,  // Auto-incremented ID
                             productName,
                             productDescription,
-                            "Seller",  // Placeholder for now
+                            productSeller,  // Placeholder for now
                             productPrice,
                             selectedImageBytes  // Use the selected image bytes
                     );
