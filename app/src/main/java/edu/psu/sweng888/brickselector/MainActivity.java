@@ -2,6 +2,7 @@ package edu.psu.sweng888.brickselector;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -97,18 +98,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 100) {  // Handle the result for AddProductActivity
-            if (resultCode == RESULT_OK) {
-                // Reloads the product list after a new product has been added
-                DBHelper dbHelper = new DBHelper(this);
-                List<Product> updatedProductList = dbHelper.getAllProducts();
-                productAdapter.updateProductList(updatedProductList);
-                Toast.makeText(this, "Product added successfully", Toast.LENGTH_SHORT).show();
-            } else if (resultCode == RESULT_CANCELED) {
-                // Shows a toast indicating that adding the product was canceled
-                Toast.makeText(this, "Product add canceled", Toast.LENGTH_SHORT).show();
-            }
+            DBHelper dbHelper = new DBHelper(this);
+            List<Product> updatedProductList = dbHelper.getAllProducts();
+
         }
-    }
-}
+    }}

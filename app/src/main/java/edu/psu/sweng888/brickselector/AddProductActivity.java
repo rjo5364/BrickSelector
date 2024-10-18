@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,13 +70,19 @@ public class AddProductActivity extends AppCompatActivity {
                             selectedImageBytes  // Use the selected image bytes
                     );
 
+                    // Log that the product is being added
+                    Log.d("AddProductActivity", "Product is being added with name: " + productName);
+
+
                     // Adds the product to the database
                     DBHelper dbHelper = new DBHelper(AddProductActivity.this);
                     dbHelper.addProduct(newProduct);
 
-                    // Sets the result as RESULT_OK and finish the activity
-                    setResult(RESULT_OK);
-                    finish();
+
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("productName", productName); // Returns the product name to the main activity
+                    setResult(RESULT_OK, resultIntent); // Sets RESULT_OK with the result intent
+
 
                 } catch (NumberFormatException e) {
                     Toast.makeText(AddProductActivity.this, "Please enter a valid price", Toast.LENGTH_SHORT).show();
@@ -85,9 +92,11 @@ public class AddProductActivity extends AppCompatActivity {
 
         // Handles the Cancel button click
         btnCancel.setOnClickListener(v -> {
+            Log.d("AddProductActivity", "Cancel button clicked, setting result to RESULT_CANCELED");
             setResult(RESULT_CANCELED);
             finish();
         });
+
     }
 
     private boolean checkStoragePermission() {
