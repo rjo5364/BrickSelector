@@ -74,7 +74,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             price.setText(String.valueOf(product.getPrice()));
             checkBox.setChecked(isSelected);  // Set the checkbox state
 
-            // Handle checkbox clicks directly within the adapter
+            // Handles checkbox clicks directly within the adapter
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     selectedProducts.add(product);  // Add to selected products
@@ -83,24 +83,24 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
             });
 
-            // Convert byte array to Bitmap for the product image
+            // Converts byte array to Bitmap for the product image
             byte[] image = product.getImage();
             if (image != null && image.length > 0) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
                 imageView.setImageBitmap(bitmap);
             } else {
-                // Set a default image if no image is available
+                // Sets a default image if no image is available
                 imageView.setImageResource(R.drawable.default_image);
             }
 
-            itemView.setOnClickListener(v -> listener.onItemClick(product));  // Handle item clicks
+            itemView.setOnClickListener(v -> listener.onItemClick(product));
         }
     }
 
     public void deleteProduct(Product product) {
-        // Remove the product from the list
+        // Removes the product from the list
         productList.remove(product);
-        // Notify the adapter that the data has changed to refresh the view
+        // Notifes the adapter that the data has changed to refresh the view
         notifyDataSetChanged();
     }
 

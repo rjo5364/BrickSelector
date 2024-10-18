@@ -31,18 +31,18 @@ public class SecondActivity extends AppCompatActivity {
         btnEmail = findViewById(R.id.btnEmail);
         buttonHome = findViewById(R.id.buttonHome);  // Initialize buttonHome here after setContentView
 
-        // Retrieve the Parcelable ArrayList of Products
+        // Retrieves the Parcelable ArrayList of Products
         selectedProducts = getIntent().getParcelableArrayListExtra("selectedProducts");
 
-        // Initialize the adapter and assign it to the class-level variable
+        // Initializes the adapter and assign it to the class-level variable
         productAdapter = new ProductAdapter(selectedProducts, null);
         recyclerView.setAdapter(productAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Send email when the button is clicked
+        // Sends email when the button is clicked
         btnEmail.setOnClickListener(v -> sendEmail(selectedProducts));
 
-        // Handle returning to the home screen
+        // Handles returning to the home screen
         buttonHome.setOnClickListener(v -> {
             Intent intent = new Intent(SecondActivity.this, MainActivity.class);
             startActivity(intent);
@@ -61,11 +61,11 @@ public class SecondActivity extends AppCompatActivity {
 
         String email = getString(R.string.targetEmail);
 
-        // Get the current time
+        // Gets the current time
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(new Date());
 
-        // Set up the email intent
+        // Sets up the email intent
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
@@ -84,10 +84,10 @@ public class SecondActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {  // Check for the requestCode used in startActivityForResult
-            // Display a toast when the user returns from the chooser
+            // Displays a toast when the user returns from the chooser
             Toast.makeText(this, "Information Sent!", Toast.LENGTH_SHORT).show();
 
-            // You can also clear the products here, if needed
+
             selectedProducts.clear();
             productAdapter.notifyDataSetChanged();
         }

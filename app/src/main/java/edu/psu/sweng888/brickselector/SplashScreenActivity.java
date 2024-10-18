@@ -14,16 +14,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen); // Make sure this matches your XML filename
 
-        // Delay of 2 seconds (2000 milliseconds)
+        // Delay of .9 seconds
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Start the MainActivity after the delay
+                // Starts the MainActivity after the delay
                 Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(intent);
-                // Close the splash screen activity
+                // Closes the splash screen activity
                 finish();
             }
-        }, 900); // 1000 milliseconds
+        }, 900);
     }
 }

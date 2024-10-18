@@ -59,21 +59,21 @@ public class AddProductActivity extends AppCompatActivity {
                 try {
                     double productPrice = Double.parseDouble(productPriceStr);
 
-                    // Create a new Product object (replace "Seller" with actual seller name if needed)
+                    // Creates a new Product object
                     Product newProduct = new Product(
                             0,  // Auto-incremented ID
                             productName,
                             productDescription,
-                            productSeller,  // Placeholder for now
+                            productSeller,
                             productPrice,
                             selectedImageBytes  // Use the selected image bytes
                     );
 
-                    // Add the product to the database
+                    // Adds the product to the database
                     DBHelper dbHelper = new DBHelper(AddProductActivity.this);
                     dbHelper.addProduct(newProduct);
 
-                    // Set the result as RESULT_OK and finish the activity
+                    // Sets the result as RESULT_OK and finish the activity
                     setResult(RESULT_OK);
                     finish();
 
@@ -83,7 +83,7 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
 
-        // Handle the Cancel button click
+        // Handles the Cancel button click
         btnCancel.setOnClickListener(v -> {
             setResult(RESULT_CANCELED);
             finish();
@@ -110,7 +110,7 @@ public class AddProductActivity extends AppCompatActivity {
         if (requestCode == SELECT_IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             try {
                 productImageView.setImageURI(data.getData());
-                // Convert the selected image into byte array (for saving into the database)
+                // Converts the selected image into byte array (for saving into the database)
                 selectedImageBytes = ImageUtil.getBytesFromUri(this, data.getData());
             } catch (Exception e) {
                 e.printStackTrace();
