@@ -38,8 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Method to add a product
-    public void addProduct(Product product) {
+    // Method to add a product, changed from void to long since we are returning inc rowid from SQL DB
+    public long addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", product.getName());
@@ -49,6 +49,13 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put("image", product.getImage());
         db.insert(TABLE_PRODUCTS, null, values);
         db.close();
+
+        // Inserts the row and get the ID of the inserted product
+        long productId = db.insert(TABLE_PRODUCTS, null, values);
+        db.close();
+
+        return productId; // Returns the auto-incremented product ID
+
     }
 
     public void deleteProduct(int productId) {

@@ -53,12 +53,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView name, description, seller, price;
+        TextView id ,name, description, seller, price;
         ImageView imageView;
         CheckBox checkBox;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
+            id = itemView.findViewById(R.id.productId);
             name = itemView.findViewById(R.id.productName);
             description = itemView.findViewById(R.id.productDescription);
             seller = itemView.findViewById(R.id.productSeller);
@@ -68,10 +69,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
         public void bind(Product product, OnItemClickListener listener, boolean isSelected) {
+            id.setText("Product ID: " + product.getId());
             name.setText(product.getName());
-            description.setText(product.getDescription());
-            seller.setText(product.getSeller());
-            price.setText(String.valueOf(product.getPrice()));
+            description.setText("Description: " +product.getDescription());
+            seller.setText("Seller: " +product.getSeller());
+            price.setText("Price: $" +String.valueOf(product.getPrice()));
             checkBox.setChecked(isSelected);  // Set the checkbox state
 
             // Handles checkbox clicks directly within the adapter

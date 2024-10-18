@@ -53,7 +53,8 @@ public class SecondActivity extends AppCompatActivity {
     private void sendEmail(List<Product> selectedProducts) {
         StringBuilder emailContent = new StringBuilder();
         for (Product product : selectedProducts) {
-            emailContent.append(product.getName()).append(", ")
+            emailContent.append("ID: ").append(product.getId()).append(", ")
+                    .append(product.getName()).append(", ")
                     .append(product.getDescription()).append(", ")
                     .append(product.getSeller()).append(", ")
                     .append(product.getPrice()).append("\n");

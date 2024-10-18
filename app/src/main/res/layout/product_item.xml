@@ -29,11 +29,12 @@
 
     <TextView
         android:id="@+id/productName"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Product Name"
         android:textSize="18sp"
-        android:paddingTop="4dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -56,8 +57,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Product Description"
-    android:textSize="16sp"
-    android:paddingTop="0dp" />
+    android:textSize="16sp" />
 
 <TextView
     android:id="@+id/productSeller"
@@ -73,6 +73,14 @@
     android:text="Price"
     android:textSize="16dp" />
 
-</LinearLayout>
+<TextView
+    android:id="@+id/productId"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Product ID"
+    android:textSize="16dp" />
+
+
+    </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
